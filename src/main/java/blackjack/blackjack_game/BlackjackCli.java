@@ -11,8 +11,9 @@ public class BlackjackCli {
 	private static Menu menu;
 	private static Card card;
 	private static Deck deck;
+	private static Hand hand;
 	private static final String GREETING = "Welcome to Blackjack!";
-	private static final String MAIN_MENU_OPTION_PLAY_GAME = "Play game";
+	private static final String MAIN_MENU_OPTION_PLAY_GAME = "Deal";
 	private static final String MAIN_MENU_OPTION_EXIT = "Exit";
 	private static final String HIT = "Hit";
 	private static final String STAND = "Stand";
@@ -61,9 +62,9 @@ public class BlackjackCli {
 		Card[] shuffled = deck.shuffle();
 		deck.deal(shuffled);
 		while(true) {
-			String hitOrStand = (String) menu.getChoiceFromOptions(GAME_OPTIONS);
-			if (hitOrStand.equals(HIT)) {
-				deck.hit(shuffled);
+			String choice = (String) menu.getChoiceFromOptions(GAME_OPTIONS);
+			if (choice.equals(HIT)) {
+				hand.addCard(shuffled[deck.getNextCard()]);
 		}
 		} 
 	}

@@ -9,10 +9,15 @@ public class Deck {
 
 	private Card[] cards;
 	private Card[] shuffled;
+	private Hand userHand;
+	private Hand dealerHand;
 	private int nextCard = 0;
 	private int score = 0;
 
-	
+
+	public int getNextCard() {
+		return nextCard;
+	}
 	
 	public Deck(Card[] cards) {
 		this.cards = cards;
@@ -59,28 +64,23 @@ public class Deck {
 	
 	public void deal(Card [] array) {
 		
-		Card [] userHand = new Card [2];
-		Card [] dealerHand = new Card[2];
+		userHand = new Hand();
+		dealerHand = new Hand();
 		
 		for (int i = 0; i < 2; i++) {
-			userHand[i] = shuffled[nextCard];
+			userHand.addCard(array[nextCard]);
 			nextCard++;
-			dealerHand[i] = shuffled[nextCard];
+			dealerHand.addCard(array[nextCard]);
 			nextCard++;
 	
 		}
 		
-		System.out.println("Your hand: " + userHand[0] + ", " + userHand[1]);
-		System.out.println("Dealer's hand: " + dealerHand[0] + ", hidden");
+		System.out.println("Your hand: " + userHand.toString());
+		System.out.println("Dealer's hand: " + dealerHand.toString());
 	
 	}
 	
 	
-	public void hit(Card [] array) {
-		
-		System.out.println(array[nextCard + 1]);
-		
-	}
 
 	
 }

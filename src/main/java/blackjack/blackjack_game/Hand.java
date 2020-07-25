@@ -19,6 +19,7 @@ public class Hand {
 		if (c != null) {
 			hand.addElement(c);
 		}
+		System.out.println(hand.toString());
 	}
 	
 	public void removeCard(Card c) {
@@ -28,9 +29,14 @@ public class Hand {
 	public void removeCard(int position) {
 		if (position > 0 && position <= hand.size()) {
 			hand.removeElementAt(position);
+			
 		}
 	}
 	
+	public String toString() {
+		String s = hand.toString();
+		return s;
+	}
 	
 	
 
