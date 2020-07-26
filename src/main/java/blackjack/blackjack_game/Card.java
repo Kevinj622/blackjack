@@ -43,7 +43,8 @@ public class Card {
 		this.suit = suit;
 	}
 	
-	public int getValue() {
+	public int getValue(Card c) {
+	
 		return value;
 	}
 	

@@ -9,8 +9,6 @@ public class Deck {
 
 	private Card[] cards;
 	private Card[] shuffled;
-	private Hand userHand;
-	private Hand dealerHand;
 	private int nextCard = 0;
 	private int score = 0;
 
@@ -62,23 +60,7 @@ public class Deck {
 		return shuffled;
 	}
 	
-	public void deal(Card [] array) {
-		
-		userHand = new Hand();
-		dealerHand = new Hand();
-		
-		for (int i = 0; i < 2; i++) {
-			userHand.addCard(array[nextCard]);
-			nextCard++;
-			dealerHand.addCard(array[nextCard]);
-			nextCard++;
-	
-		}
-		
-		System.out.println("Your hand: " + userHand.toString());
-		System.out.println("Dealer's hand: " + dealerHand.toString());
-	
-	}
+
 	
 	
 
