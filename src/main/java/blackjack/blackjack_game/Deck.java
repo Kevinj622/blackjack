@@ -10,7 +10,7 @@ public class Deck {
 	private Card[] cards;
 	private Card[] shuffled;
 	private int nextCard = 0;
-	private int score = 0;
+
 
 
 	public int getNextCard() {
@@ -24,9 +24,15 @@ public class Deck {
 	public Deck() {
 		this.cards = new Card[52];
 		int index = 0;
+		int value = 0;
 		for (int suit = 0; suit <= 3; suit++) {
 			for (int rank = 1; rank <= 13; rank++) {
-				this.cards[index] = new Card(rank, suit);
+				if (rank >= 10) {
+					value = 10;
+				} else {
+					value = rank + 1;
+				}
+				this.cards[index] = new Card(rank, suit, value);
 				index++;
 			}
 		}
