@@ -59,6 +59,7 @@ public class BlackjackCli {
 	}
 	
 	public void runGame() {
+	
 		deck = new Deck();
 		Card[] shuffled = deck.shuffle();
 		deal(shuffled);
@@ -70,38 +71,42 @@ public class BlackjackCli {
 					userHand.addCard(shuffled[nextCard]);
 					userScore += shuffled[nextCard].getValue(shuffled[nextCard]);
 					if(dealerScore < 16) {
+						nextCard++;
 						dealerHand.addCard(shuffled[nextCard]);
 						nextCard++;
+						dealerScore += shuffled[nextCard].getValue(shuffled[nextCard]);
 					} 
 					showHands();
-				
 				} else if(choice.equals(STAY)) {
 					nextCard++;
 					if(dealerScore < 16) {
 						dealerHand.addCard(shuffled[nextCard]);
+						dealerScore += shuffled[nextCard].getValue(shuffled[nextCard]);
 						nextCard++;
-					} 
+						gameLogic();
+					} else {
+						gameLogic();
+					}
+					showHands();
 				} else if (choice.equals(QUIT)) {
 					break;
 				}
 				if(userScore >= 21 || dealerScore >= 21) {
 					gameLogic();
-					break;
-				}
-				System.out.println("Play Again?");
 				
-				String choice1 = (String) menu.getChoiceFromOptions(POST_GAME_OPTIONS);
-				if (choice1.equals(YES)) {
-					userScore = 0;
-					dealerScore = 0;
-					deal(shuffled);
-					showHands();
-				} else {
-					userScore = 0;
-					dealerScore = 0;
-					break;
+					System.out.println("Play Again?");
+					String choice1 = (String) menu.getChoiceFromOptions(POST_GAME_OPTIONS);
+					if (choice1.equals(YES)) {
+						userScore = 0;
+						dealerScore = 0;
+						deal(shuffled);
+						showHands();
+					} else {
+						userScore = 0;
+						dealerScore = 0;
+						break;
+					}
 				}
-			
 		} 
 	}
 	
@@ -130,10 +135,12 @@ public class BlackjackCli {
 			
 			if (userScore > 21) {
 				System.out.println("Bust!");
+			} else if (dealerScore > 21) {
+				System.out.println("Dealer Busted! You Win!");
 			} else if (dealerScore > userScore && dealerScore <= 21) {
-				System.out.println("Dealer wins!");
+				System.out.println("Dealer Wins!");
 			} else if (userScore > dealerScore && userScore <= 21) {
-				System.out.println("You win! Yay!");
+				System.out.println("You Win!");
 			}
 	}
 
