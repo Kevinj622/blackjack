@@ -18,9 +18,15 @@ public class Hand {
 	public void addCard(Card c) {
 		if (c != null) {
 			hand.addElement(c);
+			
 		}
 		
+		
 	}
+	public Card getCard(int i) {
+		return (Card) hand.elementAt(i);
+	}
+	
 	
 	public void removeCard(Card c) {
 		hand.removeElement(c);
