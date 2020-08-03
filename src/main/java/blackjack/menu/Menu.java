@@ -4,6 +4,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -12,17 +14,18 @@ public class Menu {
 	
 	private Scanner in;
 	private PrintWriter out;
+	DecimalFormat dollars = new DecimalFormat("#0.00");
 	
 	public Menu(InputStream input, OutputStream output) {
 		this.in = new Scanner(input);
 		this.out = new PrintWriter(output);
 	}
 	
-	public Object getChoiceFromOptions(Object[] options) {
+	public Object getChoiceFromOptions(Object[] options, BigDecimal currentMoney) {
 		Object choice = null;
 		
 		while(choice == null) {
-			displayMenuOptions(options);
+			displayMenuOptions(options, currentMoney);
 			choice = getChoiceFromUserInput(options);
 		}
 		
@@ -48,7 +51,7 @@ public class Menu {
 	}
 
 	
-	private void displayMenuOptions(Object[] options) {
+	private void displayMenuOptions(Object[] options, BigDecimal currentMoney) {
 	    out.println();
 	    for (int i = 0; i < options.length; i++) {
 	        int optionNumber = i + 1;
@@ -56,6 +59,7 @@ public class Menu {
 	    }
 	    System.out.println();
 	    out.println("Please choose an option >>> ");
+	    out.println("Current balance:  " + dollars.format(currentMoney));
 	    out.flush();
 	}
 	

@@ -14,7 +14,8 @@ public class BlackjackCli {
 	private static Deck deck;
 	private static Hand userHand;
 	private static Hand dealerHand;
-	private static BigDecimal currentTotal = BigDecimal.ZERO;
+	private static BigDecimal currentTotal = BigDecimal.valueOf(100.00);
+	private static BigDecimal wager;
 	private static Bet bet;
 	private static int nextCard = 0;
 	private static int userScore = 0;
@@ -42,26 +43,27 @@ public class BlackjackCli {
 		
 		System.out.println(GREETING);
 		Menu menu = new Menu(System.in, System.out);
-		BlackjackCli blackjackCli = new BlackjackCli(menu);
+		BlackjackCli blackjackCli = new BlackjackCli(menu, currentTotal);
 		blackjackCli.run();
 	
 	}
 	
-	public BlackjackCli(Menu menu) {
+	public BlackjackCli(Menu menu, BigDecimal currentTotal) {
 		this.menu = menu;
+		this.currentTotal = currentTotal;
 	}
 	
 	public void run() {
 		
 		while(true) {
-			String choice = (String) menu.getChoiceFromOptions(MAIN_MENU_OPTIONS);
+			String choice = (String) menu.getChoiceFromOptions(MAIN_MENU_OPTIONS, currentTotal);
 			if (choice.equals(MAIN_MENU_OPTION_PLAY_GAME)) {
 				Menu gameMenu = new Menu(System.in, System.out);
 				bet = new Bet();
-				BigDecimal money = (BigDecimal) menu.getChoiceFromOptions(BET_OPTIONS);
-				bet.placeBet(money);
-				BlackjackCli cli2 = new BlackjackCli(gameMenu);
-				cli2.runGame();
+				String selection = (String) menu.getChoiceFromOptions(BET_OPTIONS, currentTotal);
+				wager = bet.placeBet(selection, currentTotal);
+				BlackjackCli cli2 = new BlackjackCli(gameMenu, wager);
+				cli2.runGame(wager);
 		} else if (choice.equals(MAIN_MENU_OPTION_EXIT)) {
 			System.out.println("Thanks for playing!");
 			break;
@@ -69,12 +71,12 @@ public class BlackjackCli {
 	}
 	}
 	
-	public void runGame() {
+	public void runGame(BigDecimal currentTotal) {
 		deck = new Deck();
 		Card[] shuffled = deck.shuffle();
 		deal(shuffled);
 		while(true) {
-			String choice = (String) menu.getChoiceFromOptions(GAME_OPTIONS);
+			String choice = (String) menu.getChoiceFromOptions(GAME_OPTIONS, currentTotal);
 				if (choice.equals(HIT)) {
 					nextCard++;
 					userHand.addCard(shuffled[nextCard]);
@@ -137,10 +139,14 @@ public class BlackjackCli {
 				System.out.println("Bust!");
 			} else if (dealerScore > 21) {
 				System.out.println("Dealer Busted! You Win!");
+				currentTotal.add(wager);
+				currentTotal.add(wager);
 			} else if (dealerScore > userScore && dealerScore <= 21) {
 				System.out.println("Dealer Wins!");
 			} else if (userScore > dealerScore && userScore <= 21) {
 				System.out.println("You Win!");
+				currentTotal.add(wager);
+				currentTotal.add(wager);
 			}
 	}
 	
@@ -148,12 +154,12 @@ public class BlackjackCli {
 			gameLogic();
 			while(true) {
 				System.out.println("Play Again?");
-				String choice1 = (String) menu.getChoiceFromOptions(POST_GAME_OPTIONS);
+				String choice1 = (String) menu.getChoiceFromOptions(POST_GAME_OPTIONS, currentTotal);
 				if (choice1.equals(YES)) {
 					userScore = 0;
 					dealerScore = 0;
 					nextCard = 0;
-					runGame();
+					runGame(currentTotal);
 				} else {
 					userScore = 0;
 					dealerScore = 0;

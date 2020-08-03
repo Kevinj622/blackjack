@@ -13,36 +13,38 @@ public class Bet {
 	private static final BigDecimal FIVE_HUNDRED = BigDecimal.valueOf(500.00);
 	private static final BigDecimal ONE_THOUSAND = BigDecimal.valueOf(1000.00);
 	
-	private static BigDecimal currentMoney;
+	private static final String choice1 = "$1.00";
+	private static final String choice5 = "$5.00";
+	private static final String choice25 = "$25.00";
+	private static final String choice100 = "$100.00";
+	private static final String choice500 = "$500.00";
+	private static final String choice1000 = "$1,000.00";
+	
 	
 	public Bet() {
 	
 	}
 	
-	public BigDecimal placeBet(BigDecimal currentTotal) {
+	public BigDecimal placeBet(String input, BigDecimal startingTotal) {
 		
-		System.out.print("Select an amount: ");
 		
-		Scanner s = new Scanner(System.in);
-		String value = s.nextLine();
-		BigDecimal input = new BigDecimal(value);
 		
-		if (input.equals(ONE)) {
-			currentTotal = currentTotal.add(ONE);
-		} else if (input.equals(FIVE)) {
-			currentTotal = currentTotal.add(FIVE);
-		} else if (input.equals(TWENTY_FIVE)) {
-			currentTotal = currentTotal.add(TWENTY_FIVE);
-		} else if (input.equals(ONE_HUNDRED)) {
-			currentTotal = currentTotal.add(ONE_HUNDRED);
-		} else if (input.equals(FIVE_HUNDRED)) {
-			currentTotal = currentTotal.add(FIVE_HUNDRED);
-		} else if (input.equals(ONE_THOUSAND)) {
-			currentTotal = currentTotal.add(ONE_THOUSAND);
+		if (input.equals(choice1)) {
+			startingTotal = startingTotal.subtract(ONE);
+		} else if (input.equals(choice5)) {
+			startingTotal = startingTotal.subtract(FIVE);
+		} else if (input.equals(choice25)) {
+			startingTotal = startingTotal.subtract(TWENTY_FIVE);
+		} else if (input.equals(choice100)) {
+			startingTotal = startingTotal.subtract(ONE_HUNDRED);
+		} else if (input.equals(choice500)) {
+			startingTotal = startingTotal.subtract(FIVE_HUNDRED);
+		} else if (input.equals(choice1000)) {
+			startingTotal = startingTotal.subtract(ONE_THOUSAND);
 		} else {
 			System.out.println("Please enter a valid amount");
 		}
-		return currentTotal;
+		return startingTotal;
 	}
 
 }
