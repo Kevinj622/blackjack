@@ -13,8 +13,6 @@ public class Menu {
 	private Scanner in;
 	private PrintWriter out;
 	
-	
-	
 	public Menu(InputStream input, OutputStream output) {
 		this.in = new Scanner(input);
 		this.out = new PrintWriter(output);
@@ -22,7 +20,6 @@ public class Menu {
 	
 	public Object getChoiceFromOptions(Object[] options) {
 		Object choice = null;
-		
 		
 		while(choice == null) {
 			displayMenuOptions(options);

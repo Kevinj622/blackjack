@@ -1,5 +1,6 @@
 package blackjack.blackjack_game;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -13,6 +14,8 @@ public class BlackjackCli {
 	private static Deck deck;
 	private static Hand userHand;
 	private static Hand dealerHand;
+	private static BigDecimal currentTotal = BigDecimal.ZERO;
+	private static Bet bet;
 	private static int nextCard = 0;
 	private static int userScore = 0;
 	private static int dealerScore = 0;
@@ -24,10 +27,16 @@ public class BlackjackCli {
 	private static final String QUIT = "Quit";
 	private static final String YES = "Yes";
 	private static final String NO = "No";
-	
+	private static final String ONE = "$1.00";
+	private static final String FIVE = "$5.00";
+	private static final String TWENTY_FIVE = "$25.00";
+	private static final String ONE_HUNDRED = "$100.00";
+	private static final String FIVE_HUNDRED = "$500.00";
+	private static final String ONE_THOUSAND = "$1,000.00";
 	private static final String [] MAIN_MENU_OPTIONS = {MAIN_MENU_OPTION_PLAY_GAME, MAIN_MENU_OPTION_EXIT};
 	private static final String [] GAME_OPTIONS = {HIT, STAY, QUIT};
 	private static final String [] POST_GAME_OPTIONS = {YES, NO};
+	private static final String [] BET_OPTIONS = {ONE, FIVE, TWENTY_FIVE, ONE_HUNDRED, FIVE_HUNDRED, ONE_THOUSAND};
 	
 	public static void main(String[] args) {
 		
@@ -35,8 +44,7 @@ public class BlackjackCli {
 		Menu menu = new Menu(System.in, System.out);
 		BlackjackCli blackjackCli = new BlackjackCli(menu);
 		blackjackCli.run();
-		deck = new Deck();
-		deck.shuffle();
+	
 	}
 	
 	public BlackjackCli(Menu menu) {
@@ -44,10 +52,14 @@ public class BlackjackCli {
 	}
 	
 	public void run() {
+		
 		while(true) {
 			String choice = (String) menu.getChoiceFromOptions(MAIN_MENU_OPTIONS);
 			if (choice.equals(MAIN_MENU_OPTION_PLAY_GAME)) {
 				Menu gameMenu = new Menu(System.in, System.out);
+				bet = new Bet();
+				BigDecimal money = (BigDecimal) menu.getChoiceFromOptions(BET_OPTIONS);
+				bet.placeBet(money);
 				BlackjackCli cli2 = new BlackjackCli(gameMenu);
 				cli2.runGame();
 		} else if (choice.equals(MAIN_MENU_OPTION_EXIT)) {
