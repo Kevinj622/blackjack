@@ -15,7 +15,7 @@ public class BlackjackCli {
 	private static Hand userHand;
 	private static Hand dealerHand;
 	private static BigDecimal currentTotal = BigDecimal.valueOf(100.00);
-	private static BigDecimal wager;
+	private static BigDecimal wager = BigDecimal.ZERO;
 	private static Bet bet;
 	private static int nextCard = 0;
 	private static int userScore = 0;
@@ -56,14 +56,15 @@ public class BlackjackCli {
 	public void run() {
 		
 		while(true) {
-			String choice = (String) menu.getChoiceFromOptions(MAIN_MENU_OPTIONS, currentTotal);
+			String choice = (String) menu.getChoiceFromOptions(MAIN_MENU_OPTIONS, currentTotal, wager);
 			if (choice.equals(MAIN_MENU_OPTION_PLAY_GAME)) {
 				Menu gameMenu = new Menu(System.in, System.out);
 				bet = new Bet();
-				String selection = (String) menu.getChoiceFromOptions(BET_OPTIONS, currentTotal);
-				wager = bet.placeBet(selection, currentTotal);
+				String selection = (String) menu.getChoiceFromOptions(BET_OPTIONS, currentTotal, wager);
+				currentTotal = bet.placeBet(selection, currentTotal);
+				wager.add(bet.wager(selection, wager));
 				BlackjackCli cli2 = new BlackjackCli(gameMenu, wager);
-				cli2.runGame(wager);
+				cli2.runGame(currentTotal, wager);
 		} else if (choice.equals(MAIN_MENU_OPTION_EXIT)) {
 			System.out.println("Thanks for playing!");
 			break;
@@ -71,12 +72,12 @@ public class BlackjackCli {
 	}
 	}
 	
-	public void runGame(BigDecimal currentTotal) {
+	public void runGame(BigDecimal currentTotal, BigDecimal wager) {
 		deck = new Deck();
 		Card[] shuffled = deck.shuffle();
 		deal(shuffled);
 		while(true) {
-			String choice = (String) menu.getChoiceFromOptions(GAME_OPTIONS, currentTotal);
+			String choice = (String) menu.getChoiceFromOptions(GAME_OPTIONS, currentTotal, wager);
 				if (choice.equals(HIT)) {
 					nextCard++;
 					userHand.addCard(shuffled[nextCard]);
@@ -154,12 +155,12 @@ public class BlackjackCli {
 			gameLogic();
 			while(true) {
 				System.out.println("Play Again?");
-				String choice1 = (String) menu.getChoiceFromOptions(POST_GAME_OPTIONS, currentTotal);
+				String choice1 = (String) menu.getChoiceFromOptions(POST_GAME_OPTIONS, currentTotal, wager);
 				if (choice1.equals(YES)) {
 					userScore = 0;
 					dealerScore = 0;
 					nextCard = 0;
-					runGame(currentTotal);
+					runGame(currentTotal, wager);
 				} else {
 					userScore = 0;
 					dealerScore = 0;

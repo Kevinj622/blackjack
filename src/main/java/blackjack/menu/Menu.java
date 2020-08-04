@@ -21,11 +21,11 @@ public class Menu {
 		this.out = new PrintWriter(output);
 	}
 	
-	public Object getChoiceFromOptions(Object[] options, BigDecimal currentMoney) {
+	public Object getChoiceFromOptions(Object[] options, BigDecimal currentMoney, BigDecimal wager) {
 		Object choice = null;
 		
 		while(choice == null) {
-			displayMenuOptions(options, currentMoney);
+			displayMenuOptions(options, currentMoney, wager);
 			choice = getChoiceFromUserInput(options);
 		}
 		
@@ -51,7 +51,7 @@ public class Menu {
 	}
 
 	
-	private void displayMenuOptions(Object[] options, BigDecimal currentMoney) {
+	private void displayMenuOptions(Object[] options, BigDecimal currentMoney, BigDecimal wager) {
 	    out.println();
 	    for (int i = 0; i < options.length; i++) {
 	        int optionNumber = i + 1;
@@ -60,6 +60,8 @@ public class Menu {
 	    System.out.println();
 	    out.println("Please choose an option >>> ");
 	    out.println("Current balance:  " + dollars.format(currentMoney));
+	    out.println("Current bet: " + dollars.format(wager));
+	 
 	    out.flush();
 	}
 	

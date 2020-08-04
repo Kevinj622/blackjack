@@ -19,15 +19,14 @@ public class Bet {
 	private static final String choice100 = "$100.00";
 	private static final String choice500 = "$500.00";
 	private static final String choice1000 = "$1,000.00";
-	
+
+	private static BigDecimal wager = BigDecimal.ZERO;
 	
 	public Bet() {
-	
+
 	}
 	
 	public BigDecimal placeBet(String input, BigDecimal startingTotal) {
-		
-		
 		
 		if (input.equals(choice1)) {
 			startingTotal = startingTotal.subtract(ONE);
@@ -46,5 +45,28 @@ public class Bet {
 		}
 		return startingTotal;
 	}
+	
+	public BigDecimal wager(String input, BigDecimal wager) {
+		
+		if (input.equals(choice1)) {
+			wager = wager.add(ONE);
+		} else if (input.equals(choice5)) {
+			wager = wager.add(FIVE);
+		} else if (input.equals(choice25)) {
+			wager = wager.add(TWENTY_FIVE);
+		} else if (input.equals(choice100)) {
+			wager = wager.add(ONE_HUNDRED);
+		} else if (input.equals(choice500)) {
+			wager = wager.add(FIVE_HUNDRED);
+		} else if (input.equals(choice1000)) {
+			wager = wager.add(ONE_THOUSAND);
+		} else {
+			System.out.println("Please enter a valid amount");
+		}
+		return wager;
+		
+	}
+	
+	
 
 }
