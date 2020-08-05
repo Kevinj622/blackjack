@@ -28,6 +28,7 @@ public class Bet {
 	
 	public BigDecimal placeBet(String input, BigDecimal startingTotal) {
 		
+		
 		if (input.equals(choice1)) {
 			startingTotal = startingTotal.subtract(ONE);
 		} else if (input.equals(choice5)) {
@@ -43,6 +44,9 @@ public class Bet {
 		} else {
 			System.out.println("Please enter a valid amount");
 		}
+		
+		
+		
 		return startingTotal;
 	}
 	

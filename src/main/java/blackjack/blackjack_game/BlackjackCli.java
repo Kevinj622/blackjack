@@ -43,14 +43,15 @@ public class BlackjackCli {
 		
 		System.out.println(GREETING);
 		Menu menu = new Menu(System.in, System.out);
-		BlackjackCli blackjackCli = new BlackjackCli(menu, currentTotal);
+		BlackjackCli blackjackCli = new BlackjackCli(menu, currentTotal, wager);
 		blackjackCli.run();
 	
 	}
 	
-	public BlackjackCli(Menu menu, BigDecimal currentTotal) {
+	public BlackjackCli(Menu menu, BigDecimal currentTotal, BigDecimal wager) {
 		this.menu = menu;
 		this.currentTotal = currentTotal;
+		this.wager = wager;
 	}
 	
 	public void run() {
@@ -62,8 +63,8 @@ public class BlackjackCli {
 				bet = new Bet();
 				String selection = (String) menu.getChoiceFromOptions(BET_OPTIONS, currentTotal, wager);
 				currentTotal = bet.placeBet(selection, currentTotal);
-				wager.add(bet.wager(selection, wager));
-				BlackjackCli cli2 = new BlackjackCli(gameMenu, wager);
+				wager = wager.add(bet.wager(selection, wager));
+				BlackjackCli cli2 = new BlackjackCli(gameMenu, currentTotal, wager);
 				cli2.runGame(currentTotal, wager);
 		} else if (choice.equals(MAIN_MENU_OPTION_EXIT)) {
 			System.out.println("Thanks for playing!");
@@ -101,6 +102,8 @@ public class BlackjackCli {
 					userScore = 0;
 					dealerScore = 0;
 					nextCard = 0;
+					currentTotal = BigDecimal.valueOf(100.00);
+					wager = BigDecimal.ZERO;
 					break;
 				}
 				if((dealerScore <= 21 && dealerScore > userScore) || (userScore <= 21 && userScore > dealerScore)
@@ -140,14 +143,17 @@ public class BlackjackCli {
 				System.out.println("Bust!");
 			} else if (dealerScore > 21) {
 				System.out.println("Dealer Busted! You Win!");
-				currentTotal.add(wager);
-				currentTotal.add(wager);
+				currentTotal = currentTotal.add(wager);
+				currentTotal = currentTotal.add(wager);
 			} else if (dealerScore > userScore && dealerScore <= 21) {
 				System.out.println("Dealer Wins!");
 			} else if (userScore > dealerScore && userScore <= 21) {
 				System.out.println("You Win!");
-				currentTotal.add(wager);
-				currentTotal.add(wager);
+				currentTotal = currentTotal.add(wager);
+				currentTotal = currentTotal.add(wager);
+			} else if (userScore == dealerScore && userScore < 21 && dealerScore < 21) {
+				System.out.println("Push.");
+				
 			}
 	}
 	
@@ -160,6 +166,7 @@ public class BlackjackCli {
 					userScore = 0;
 					dealerScore = 0;
 					nextCard = 0;
+					wager = BigDecimal.ZERO;
 					runGame(currentTotal, wager);
 				} else {
 					userScore = 0;
@@ -169,5 +176,4 @@ public class BlackjackCli {
 				}
 			}
 	}
-
 }
