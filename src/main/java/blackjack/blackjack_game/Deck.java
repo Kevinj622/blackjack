@@ -11,8 +11,6 @@ public class Deck {
 	private Card[] shuffled;
 	private int nextCard = 0;
 
-
-
 	public int getNextCard() {
 		return nextCard;
 	}
@@ -66,14 +64,4 @@ public class Deck {
 		return shuffled;
 	}
 	
-
-	
-	
-
-	
 }
-	
-
-
-
-
