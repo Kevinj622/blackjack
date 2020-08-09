@@ -71,6 +71,16 @@ public class Bet {
 		
 	}
 	
+	public BigDecimal addWinningsToTotal(BigDecimal currentTotal, BigDecimal wager) {
+		
+		BigDecimal firstTotal = currentTotal.add(wager);
+		BigDecimal finalTotal = firstTotal.add(wager);
+		
+		
+		return finalTotal;
+		
+	}
+	
 	
 
 }

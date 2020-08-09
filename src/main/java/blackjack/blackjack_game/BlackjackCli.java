@@ -107,8 +107,8 @@ public class BlackjackCli {
 				}
 				if((dealerScore <= 21 && dealerScore > userScore) || (userScore <= 21 && userScore > dealerScore)
 						|| userScore >= 21 || dealerScore >= 21) {
-					gameLogic(current, newWager);
-					endGame(current, newWager);
+					BigDecimal newTotal = gameLogic(current, newWager);
+					endGame(newTotal, newWager);
 				}
 		} 
 	}
@@ -135,23 +135,26 @@ public class BlackjackCli {
 		System.out.println("Dealer's hand: " + dealerHand.toString() + " " + dealerScore);
 	}
 	
-	public void gameLogic(BigDecimal currentMoney, BigDecimal newWager) {
+	public BigDecimal gameLogic(BigDecimal currentMoney, BigDecimal newWager) {
+		
+			BigDecimal newTotal = BigDecimal.ZERO;
 		
 			if (userScore > 21) {
 				System.out.println("Bust!");
+				newTotal = currentMoney;
 			} else if (dealerScore > 21) {
 				System.out.println("Dealer Busted! You Win!");
-				currentMoney = currentMoney.add(newWager);
-				currentMoney = currentMoney.add(newWager);
+				newTotal = bet.addWinningsToTotal(currentMoney, newWager);
 			} else if (dealerScore > userScore && dealerScore <= 21) {
 				System.out.println("Dealer Wins!");
+				newTotal = currentMoney;
 			} else if (userScore > dealerScore && userScore <= 21) {
 				System.out.println("You Win!");
-				currentMoney = currentMoney.add(newWager);
-				currentMoney = currentMoney.add(newWager);
+				newTotal = bet.addWinningsToTotal(currentMoney, newWager);
 			} else if (userScore == dealerScore && userScore < 21 && dealerScore < 21) {
 				System.out.println("Push.");
 			}
+			return newTotal;
 	}
 	
 	public void endGame(BigDecimal currentTotal, BigDecimal wager) {
