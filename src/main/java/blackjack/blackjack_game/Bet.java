@@ -45,7 +45,10 @@ public class Bet {
 			System.out.println("Please enter a valid amount");
 		}
 		
-		
+		if (startingTotal.compareTo(BigDecimal.ZERO) <0) {
+			input = null;
+			System.out.println("You don't have enough money");
+		}
 		
 		return startingTotal;
 	}

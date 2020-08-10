@@ -10,7 +10,6 @@ import blackjack.menu.Menu;
 public class BlackjackCli {
 	
 	private static Menu menu;
-	private static Card card;
 	private static Deck deck;
 	private static Hand userHand;
 	private static Hand dealerHand;
@@ -61,7 +60,7 @@ public class BlackjackCli {
 				Menu gameMenu = new Menu(System.in, System.out);
 				BlackjackCli cli2 = new BlackjackCli(gameMenu, currentTotal, wager);
 				cli2.runGame(currentTotal, wager);
-		} else if (choice.equals(MAIN_MENU_OPTION_EXIT)) {
+			} else if (choice.equals(MAIN_MENU_OPTION_EXIT)) {
 			System.out.println("Thanks for playing!");
 			break;
 		}
@@ -106,9 +105,11 @@ public class BlackjackCli {
 					break;
 				}
 				if((dealerScore <= 21 && dealerScore > userScore) || (userScore <= 21 && userScore > dealerScore)
-						|| userScore >= 21 || dealerScore >= 21) {
+						|| userScore >= 21 || dealerScore >= 21 || 
+						(dealerScore == userScore && userScore >= 19 && userScore < 21 && dealerScore >= 19 && dealerScore < 21)) {
 					BigDecimal newTotal = gameLogic(current, newWager);
 					endGame(newTotal, newWager);
+					break;
 				}
 		} 
 	}
